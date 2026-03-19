@@ -210,7 +210,7 @@
 
 			.role-tabs {
 				display: grid;
-				grid-template-columns: repeat(3, minmax(0, 1fr));
+				grid-template-columns: repeat(2, minmax(0, 1fr));
 				gap: 0.42rem;
 				padding: 0.34rem;
 				border-radius: 12px;
@@ -237,7 +237,6 @@
 				transition: all 0.2s;
 			}
 
-			#role-admin:checked + label,
 			#role-resident:checked + label,
 			#role-crew:checked + label {
 				background: #fff;
@@ -334,9 +333,7 @@
 		<main class="page">
 			<section class="hero">
 				<header class="brand">
-					<div class="crest">CW</div>
-					<div>
-						<p class="kicker">Local Waste Authority</p>
+
 						<h1>CivicWaste</h1>
 					</div>
 				</header>
@@ -387,8 +384,6 @@
 					<label class="field">
 						<span>User type</span>
 						<div class="role-tabs">
-							<input type="radio" name="user_type" id="role-admin" value="Admin" {% if selected_role == 'Admin' %}checked{% endif %} />
-							<label for="role-admin">Admin</label>
 
 							<input type="radio" name="user_type" id="role-resident" value="Resident" {% if selected_role == 'Resident' %}checked{% endif %} />
 							<label for="role-resident">Resident</label>

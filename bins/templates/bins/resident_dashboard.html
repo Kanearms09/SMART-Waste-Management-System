@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Resident Dashboard</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Work+Sans:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                color-scheme: light;
+                --bg: #fef7ef;
+                --card: #ffffff;
+                --text: #2a3042;
+                --muted: #6d7386;
+                --accent: #de7c4e;
+                --accent-hover: #cb6d41;
+                --border: #e8dccb;
+                --panel: #f4a46b;
+                --panel-muted: #fff5ea;
+                --ink-on-panel: #fffaf5;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                font-family: "Work Sans", "Segoe UI", Roboto, sans-serif;
+                background: linear-gradient(155deg, #fffdfb 0%, var(--bg) 52%, #fff1e2 100%);
+                color: var(--text);
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                display: grid;
+                grid-template-columns: 280px 1fr;
+                overflow: hidden;
+            }
+
+            .hero {
+                background: linear-gradient(165deg, #f2a267 0%, var(--panel) 52%, #e28f55 100%);
+                color: var(--ink-on-panel);
+                padding: 2.8rem 2.6rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                position: relative;
+            }35deg, #f2a267 0%, var(--panel) 52%, #e28f55 100%);
+                color: var(--ink-on-panel);
+                padding: 1.8rem 1.6rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                position: relative;
+                box-shadow: 0 4px 12px rgba(131, 88, 46, 0.1);
+            }
+
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                margin-bottom: 1.8rem;
+            }
+
+            .kicker {
+                margin: 0;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                font-size: 0.65rem;
+                font-weight: 600;
+            }
+
+            .hero h1 {
+                margin: 0;
+                font-family: "DM Serif Display", Georgia, serif;
+                font-size: 1.8rem;
+                line-height: 1;
+                font-weight: 400;
+                color: #fff;
+            }
+
+            .hero h2 {
+                margin: 1.2rem 0 0;
+                font-family: "DM Serif Display", Georgia, serif;
+                font-size: 1.4rem;
+                line-height: 1.2;
+                font-weight: 400;
+                max-width: 16ch;
+            }
+
+            .hero p {
+                margin: 0.6rem 0 0;
+                max-width: 44ch;
+                line-height: 1.5;
+                color: var(--panel-muted);
+                font-size: 0.85rem;
+            }
+
+            .summary {
+                margin-top: 1.2rem;
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .summary .item {
+                padding: 0.6rem 0.65rem;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.12);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .summary .item strong {
+                display: block;
+                font-size: 0.75rem;
+            }
+
+            .summary .item span {
+                font-size: 0.7rem;
+                color: #fff7ed;
+            }
+
+            .panel {
+                padding: 3rem 2.8rem;
+                display: flex;
+                flex-direction: column;
+                overflow-y: auto;
+                background: var(--card);
+            }
+
+            .subtext {
+                margin: 0;
+                color: var(--muted);
+                font-size: 0.96rem;
+                line-height: 1.55;
+            }
+
+            .role-chip {
+                display: inline-block;
+                margin-top: 1rem;
+                padding: 0.42rem 0.78rem;
+                border-radius: 999px;
+                background: #fff6ed;
+                border: 1px solid var(--border);
+                font-size: 0.84rem;
+                font-weight: 600;
+                color: #5b4f40;
+            }
+
+            .analytics {
+                margin-top: 2rem;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1.5rem;
+            }
+
+            .stat-card {
+                padding: 1.2rem;
+                border-radius: 16px;
+                background: linear-gradient(135deg, #fff8f2 0%, #fffaf5 100%);
+                border: 1px solid var(--border);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+                transition: transform 0.2s, box-shadow 0.2s;
+            }
+
+            .stat-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            }
+
+            .stat-card .stat-value {
+                font-family: "DM Serif Display", Georgia, serif;
+                font-size: 2.2rem;
+                line-height: 1;
+                color: var(--accent);
+            }
+
+            .stat-card .stat-label {
+                display: block;
+                margin-top: 0.4rem;
+                font-size: 0.85rem;
+                color: var(--muted);
+                font-weight: 500;
+            }
+
+            .stat-card.wide {
+                grid-column: span 2;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: var(--text);
+                margin: 2.2rem 0 1.4rem;
+                font-family: "DM Serif Display", Georgia, serif;
+            }
+
+            .collection-card {
+                padding: 1.1rem;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #fff8f2 0%, #fffaf5 100%);
+                border: 1px solid var(--border);
+                margin-bottom: 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .collection-card strong {
+                color: var(--accent);
+                font-weight: 600;
+            }
+
+            .collection-date {
+                font-size: 0.85rem;
+                color: var(--muted);
+            }
+
+            .tip-box {
+                padding: 1.1rem;
+                border-radius: 12px;
+                background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+                border: 1px solid #c8e6c9;
+                border-left: 4px solid #4caf50;
+                margin-bottom: 1rem;
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+
+            .tip-box strong {
+                display: block;
+                color: #2e7d32;
+                margin-bottom: 0.3rem;
+                font-size: 0.95rem;
+            }
+
+            .actions {
+                display: grid;
+                gap: 0.8rem;
+                margin-top: auto;
+                padding-top: 2rem;
+                max-width: 100%;
+            }
+
+            .btn {
+                display: block;
+                text-align: center;
+                border-radius: 11px;
+                padding: 0.92rem 1rem;
+                font-size: 0.95rem;
+                font-weight: 600;
+                text-decoration: none;
+                transition: transform 0.18s, filter 0.18s;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            @media (max-width: 980px) {
+                .page {
+                    grid-template-columns: 1fr;
+                    grid-template-rows: auto 1fr;
+                }
+
+                .hero {
+                    padding: 1.2rem;
+                    height: auto;
+                }
+
+                .panel {
+                    padding: 1.5rem;
+                }
+
+                .summary,
+                .analytics {
+                    grid-template-columns: 1fr;
+                }
+
+                .stat-card.wide {
+                    grid-column: span 1;
+                }
+            }
+
+            .btn-style-placeholder {
+                display: none;
+            }
+
+            .btn-primary {
+                background: linear-gradient(135deg, #ea8658 0%, #cf6f45 100%);
+                color: #fff;
+            }
+
+            .btn-secondary {
+                background: #fff8f0;
+                border: 1px solid var(--border);
+                color: #2a3042;
+            }
+
+            .btn:hover {
+                transform: translateY(-1px);
+                filter: brightness(1.03);
+            }
+
+            @media (max-width: 980px) {
+                .page {
+                    grid-template-columns: 1fr;
+                }
+
+                .hero,
+                .panel {
+                    padding: 1.75rem 1.3rem;
+                }
+
+                .summary,
+                .analytics {
+                    grid-template-columns: 1fr;
+                }
+
+                .stat-card.wide {
+                    grid-column: span 1;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="page">
+            <section class="hero">
+                <header class="brand">
+                    <div>
+                        <p class="kicker">Local Waste Authority</p>
+                        <h1>CivicWaste</h1>
+                    </div>
+                </header>
+
+                <div>
+                    <h2>Your bin. Your schedule.</h2>
+                    <p>Welcome back, {{ request.user.username }}. Track your bin's fill level, upcoming collections, and service requests all in one place.</p>
+                    <div class="summary">
+                        <div class="item">
+                            <strong>Role</strong>
+                            <span>Resident</span>
+                        </div>
+                        <div class="item">
+                            <strong>Status</strong>
+                            <span>Live monitoring active</span>
+                        </div>
+                        <div class="item">
+                            <strong>Zone</strong>
+                            <span>Market Lane sector</span>
+                        </div>
+                        <div class="item">
+                            <strong>Alerts</strong>
+                            <span>Enabled</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <div>
+                        <p class="kicker" style="color: #8b8f9e; margin: 0 0 0.3rem 0;">Resident</p>
+                        <h3 style="margin: 0; font-family: 'DM Serif Display', Georgia, serif; font-size: 2rem; color: var(--text);">Your bin at a glance</h3>
+                    </div>
+                    <span class="role-chip" style="margin-top: 0;">{{ request.user.username }}</span>
+                </div>
+
+                <div class="analytics">
+                    <div class="stat-card">
+                        <div class="stat-value">{{ resident_bin_fill_level }}%</div>
+                        <span class="stat-label">Bin fill level</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">{{ resident_next_collection|date:"d/m" }}</div>
+                        <span class="stat-label">Next collection</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">{{ resident_collections_this_month }}</div>
+                        <span class="stat-label">Collections this month</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">{{ resident_last_collection|date:"d/m" }}</div>
+                        <span class="stat-label">Last collection date</span>
+                    </div>
+                </div>
+
+                <h3 class="section-title">📅 Upcoming Collections</h3>
+                <div class="collection-card">
+                    <div>
+                        <strong>Regular Collection</strong>
+                        <div class="collection-date">Next scheduled: Monday, 8:00 AM</div>
+                    </div>
+                    <span style="font-size: 1.2rem;">→</span>
+                </div>
+                <div class="collection-card">
+                    <div>
+                        <strong>Weekly Route Coverage</strong>
+                        <div class="collection-date">24 Market Lane • 57 River Street • 11 Oak Crescent</div>
+                    </div>
+                    <span style="font-size: 1.2rem;">✓</span>
+                </div>
+
+                <h3 class="section-title">♻️ Waste Reduction Tips</h3>
+                <div class="tip-box">
+                    <strong>Did you know?</strong>
+                    Composting food scraps can reduce your waste by 30% and help the environment!
+                </div>
+                <div class="tip-box">
+                    <strong>Pro tip:</strong>
+                    Flatten cardboard boxes before placing them in your bin to maximize space.
+                </div>
+
+                <div class="actions">
+                    <a class="btn btn-primary" href="javascript:alert('Request a collection - Feature coming soon!')">📞 Request Collection</a>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem;">
+                        <a class="btn btn-secondary" href="{% url 'role-dashboard' role_slug=role_slug %}" style="padding: 0.75rem 1rem; font-size: 0.9rem;">Refresh</a>
+                        <a class="btn btn-secondary" href="{% url 'logout' %}" style="padding: 0.75rem 1rem; font-size: 0.9rem;">Logout</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
