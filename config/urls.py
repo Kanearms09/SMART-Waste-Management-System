@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    # Moved to /django-admin/ to avoid interfering with custom role-based login
+    path("django-admin/", admin.site.urls),
     path("", include("bins.urls")),
 ]

@@ -275,6 +275,217 @@
                 box-sizing: border-box;
             }
 
+            /* Mobile-first: Small phones (320px - 480px) */
+            @media (max-width: 480px) {
+                body {
+                    padding: 0;
+                }
+
+                .page {
+                    grid-template-columns: 1fr;
+                    grid-template-rows: auto 1fr;
+                    min-height: 100vh;
+                }
+
+                .hero {
+                    padding: 1rem 0.9rem;
+                    height: auto;
+                }
+
+                .brand {
+                    gap: 0.4rem;
+                    margin-bottom: 1rem;
+                }
+
+                .kicker {
+                    font-size: 0.55rem;
+                }
+
+                .hero h1 {
+                    font-size: 1.4rem;
+                }
+
+                .hero h2 {
+                    font-size: 1.2rem;
+                    margin-top: 0.8rem;
+                }
+
+                .hero p {
+                    font-size: 0.8rem;
+                    max-width: 100%;
+                }
+
+                .summary {
+                    grid-template-columns: 1fr;
+                    gap: 0.4rem;
+                    margin-top: 0.8rem;
+                }
+
+                .summary .item {
+                    padding: 0.5rem 0.5rem;
+                }
+
+                .summary .item strong,
+                .summary .item span {
+                    font-size: 0.65rem;
+                }
+
+                .panel {
+                    padding: 1.2rem 0.9rem;
+                    overflow-y: auto;
+                }
+
+                .panel h3 {
+                    font-size: 1.3rem;
+                    margin: 0.1rem 0 0.25rem;
+                }
+
+                .subtext {
+                    font-size: 0.8rem;
+                }
+
+                .role-chip {
+                    font-size: 0.75rem;
+                    padding: 0.35rem 0.6rem;
+                    margin-top: 0.8rem;
+                }
+
+                .analytics {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                    margin-top: 1.2rem;
+                }
+
+                .stat-card {
+                    padding: 1rem;
+                }
+
+                .stat-card .stat-value {
+                    font-size: 1.8rem;
+                }
+
+                .stat-card .stat-label {
+                    font-size: 0.75rem;
+                    margin-top: 0.3rem;
+                }
+
+                .quick-actions {
+                    grid-template-columns: 1fr;
+                    gap: 0.6rem;
+                    margin-top: 1.2rem;
+                }
+
+                .actions {
+                    gap: 0.6rem;
+                    padding-top: 1rem;
+                }
+
+                .btn {
+                    padding: 0.75rem 0.8rem;
+                    font-size: 0.9rem;
+                    border-radius: 9px;
+                }
+            }
+
+            /* Tablets and medium phones (481px - 768px) */
+            @media (max-width: 768px) {
+                body {
+                    padding: 0;
+                }
+
+                .page {
+                    grid-template-columns: 1fr;
+                    grid-template-rows: auto 1fr;
+                    min-height: 100vh;
+                }
+
+                .hero {
+                    padding: 1.3rem 1.1rem;
+                    height: auto;
+                }
+
+                .brand {
+                    gap: 0.5rem;
+                    margin-bottom: 1.3rem;
+                }
+
+                .kicker {
+                    font-size: 0.65rem;
+                }
+
+                .hero h1 {
+                    font-size: 1.6rem;
+                }
+
+                .hero h2 {
+                    font-size: 1.4rem;
+                    margin-top: 1rem;
+                }
+
+                .hero p {
+                    font-size: 0.85rem;
+                }
+
+                .summary {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.5rem;
+                    margin-top: 1rem;
+                }
+
+                .summary .item strong,
+                .summary .item span {
+                    font-size: 0.75rem;
+                }
+
+                .panel {
+                    padding: 1.5rem 1.3rem;
+                    overflow-y: auto;
+                }
+
+                .panel h3 {
+                    font-size: 1.6rem;
+                }
+
+                .subtext {
+                    font-size: 0.9rem;
+                }
+
+                .analytics {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 1.2rem;
+                    margin-top: 1.5rem;
+                }
+
+                .stat-card {
+                    padding: 1.1rem;
+                }
+
+                .stat-card .stat-value {
+                    font-size: 2rem;
+                }
+
+                .stat-card .stat-label {
+                    font-size: 0.8rem;
+                }
+
+                .quick-actions {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.7rem;
+                    margin-top: 1.2rem;
+                }
+
+                .actions {
+                    gap: 0.7rem;
+                    padding-top: 1.5rem;
+                }
+
+                .btn {
+                    padding: 0.85rem;
+                    font-size: 0.95rem;
+                }
+            }
+
+            /* Tablets and larger (769px - 980px) */
             @media (max-width: 980px) {
                 .page {
                     grid-template-columns: 1fr;
@@ -292,9 +503,19 @@
 
                 .summary,
                 .analytics {
-                    grid-template-columns: 1fr;
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .quick-actions {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .analytics {
+                    gap: 1.3rem;
                 }
             }
+
+            /* Desktop and larger (981px+) - default */
 
             .btn-style-placeholder {
                 display: none;
@@ -402,56 +623,52 @@
 
                 <div class="analytics">
                     <div class="stat-card">
-                        <div class="stat-value">5</div>
+                        <div class="stat-value">{{ crew_assigned_today_count }}</div>
                         <span class="stat-label">Bins assigned today</span>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">2</div>
+                        <div class="stat-value">{{ crew_completed_count }}</div>
                         <span class="stat-label">Collections completed</span>
                     </div>
                     <div class="stat-card alert">
-                        <div class="stat-value">2</div>
+                        <div class="stat-value">{{ crew_high_capacity_count }}</div>
                         <span class="stat-label">High capacity bins (&gt;80%)</span>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-value">3</div>
+                        <div class="stat-value">{{ crew_pending_count }}</div>
                         <span class="stat-label">Pending collections</span>
                     </div>
                 </div>
 
                 <h3 class="section-title">🗑️ Priority Collections</h3>
                 <div class="bins-list">
+                    {% for stop in crew_priority_stops %}
                     <div class="bin-item">
                         <div>
-                            <strong>Stop S1</strong>
-                            <div class="bin-status">24 Market Lane • 88% full</div>
+                            <strong>Stop {{ stop.order }}</strong>
+                            <div class="bin-status">{{ stop.address }} • {{ stop.fill_level }}% full</div>
                         </div>
-                        <span class="priority-badge">High</span>
+                        <span class="priority-badge">{{ stop.priority_label }}</span>
                     </div>
+                    {% empty %}
                     <div class="bin-item">
                         <div>
-                            <strong>Stop S2</strong>
-                            <div class="bin-status">57 River Street • 83% full</div>
+                            <strong>No priority stops</strong>
+                            <div class="bin-status">No SQL route data is available yet.</div>
                         </div>
-                        <span class="priority-badge">High</span>
+                        <span class="priority-badge">Info</span>
                     </div>
-                    <div class="bin-item">
-                        <div>
-                            <strong>Stop S3</strong>
-                            <div class="bin-status">11 Oak Crescent • 79% full</div>
-                        </div>
-                        <span class="priority-badge">Medium</span>
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <h3 class="section-title">📊 Performance Metrics</h3>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1.5rem;">
                     <div class="stat-card" style="background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%); border-color: #bbdefb;">
-                        <div class="stat-value" style="color: #1976d2;">87%</div>
+                        <div class="stat-value" style="color: #1976d2;">{{ crew_route_efficiency }}%</div>
                         <span class="stat-label">Route efficiency</span>
                     </div>
                     <div class="stat-card" style="background: linear-gradient(135deg, #e8f5e9 0%, #fce4ec 100%); border-color: #c8e6c9;">
-                        <div class="stat-value" style="color: #388e3c;">2h 14m</div>
+                        <div class="stat-value" style="color: #388e3c;">{{ crew_time_remaining }}</div>
                         <span class="stat-label">Time remaining</span>
                     </div>
                 </div>

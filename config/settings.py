@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "bins",
+    "bins.apps.BinsConfig",
 ]
 
 MIDDLEWARE = [
@@ -118,4 +118,5 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 LOGIN_URL = "login"
+# Post-login redirects are handled explicitly in login_view based on user role
 LOGIN_REDIRECT_URL = "dashboard"

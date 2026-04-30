@@ -32,19 +32,29 @@
             body {
                 margin: 0;
                 min-height: 100vh;
-                display: grid;
-                place-items: center;
                 font-family: "Work Sans", "Segoe UI", Roboto, sans-serif;
                 background:
                     radial-gradient(circle at 8% 14%, #ffe1c4 0%, transparent 28%),
                     radial-gradient(circle at 92% 16%, #ffe7d2 0%, transparent 26%),
                     linear-gradient(155deg, #fffdfb 0%, var(--bg) 52%, #fff1e2 100%);
                 color: var(--text);
-                padding: 1.5rem;
+                padding: 0;
+            }
+
+            .shell {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .content {
+                width: min(100%, 1360px);
+                margin: 0 auto;
+                padding: 1.25rem;
+                flex: 1;
             }
 
             .page {
-                width: min(100%, 1220px);
                 background: var(--card);
                 border: 1px solid var(--border);
                 border-radius: 30px;
@@ -143,6 +153,9 @@
 
             .panel {
                 padding: 2.8rem 2.55rem;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
             }
 
             .panel h3 {
@@ -179,6 +192,203 @@
                 margin-top: 1.35rem;
             }
 
+            .report-nav {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                backdrop-filter: blur(16px);
+                background: rgba(254, 247, 239, 0.88);
+                border-bottom: 1px solid rgba(232, 220, 203, 0.9);
+                margin-bottom: 1rem;
+            }
+
+            .report-nav-inner {
+                width: min(100%, 1360px);
+                margin: 0 auto;
+                padding: 1rem 1.25rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .report-nav-title {
+                display: flex;
+                flex-direction: column;
+                gap: 0.15rem;
+            }
+
+            .report-nav-title strong {
+                font-family: "DM Serif Display", Georgia, serif;
+                font-size: 1.5rem;
+                font-weight: 400;
+                color: var(--text);
+                line-height: 1;
+            }
+
+            .report-nav-title span {
+                font-size: 0.82rem;
+                color: var(--muted);
+            }
+
+            .report-nav-links {
+                display: flex;
+                align-items: center;
+                gap: 0.55rem;
+                flex-wrap: wrap;
+            }
+
+            .report-nav-links a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.62rem 0.9rem;
+                border-radius: 999px;
+                border: 1px solid var(--border);
+                background: #fff;
+                color: var(--text);
+                text-decoration: none;
+                font-size: 0.85rem;
+                font-weight: 600;
+                transition: transform 0.18s, filter 0.18s;
+            }
+
+            .report-nav-links a.primary {
+                background: linear-gradient(135deg, #ea8658 0%, #cf6f45 100%);
+                color: #fff;
+                border-color: transparent;
+            }
+
+            .report-nav-links a:hover {
+                transform: translateY(-1px);
+                filter: brightness(1.02);
+            }
+
+            .dashboard-shell {
+                width: min(100%, 1360px);
+                margin: 0 auto;
+                padding: 1.25rem;
+            }
+
+            .dashboard-hero {
+                display: grid;
+                gap: 0.9rem;
+                margin-bottom: 1rem;
+            }
+
+            .dashboard-hero h2 {
+                margin: 0;
+                font-family: "DM Serif Display", Georgia, serif;
+                font-size: clamp(2rem, 3vw, 3rem);
+                font-weight: 400;
+                color: var(--text);
+                line-height: 1;
+            }
+
+            .dashboard-hero p {
+                margin: 0;
+                color: var(--muted);
+                font-size: 0.98rem;
+                line-height: 1.6;
+                max-width: 72ch;
+            }
+
+            .dashboard-stats {
+                display: grid;
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+                gap: 0.85rem;
+                margin: 0;
+            }
+
+            .dashboard-grid {
+                display: grid;
+                gap: 1rem;
+                margin-top: 1rem;
+                grid-template-columns: repeat(12, minmax(0, 1fr));
+            }
+
+            .dashboard-section {
+                padding: 1rem;
+                border-radius: 16px;
+                border: 1px solid var(--border);
+                background: linear-gradient(135deg, #fff8f2 0%, #fffaf5 100%);
+            }
+
+            .dashboard-section h4 {
+                margin: 0 0 0.75rem;
+                font-family: "DM Serif Display", Georgia, serif;
+                font-size: 1.35rem;
+                font-weight: 400;
+                color: var(--text);
+            }
+
+            .dashboard-section.routes {
+                grid-column: 1 / span 7;
+            }
+
+            .dashboard-section.fleet {
+                grid-column: 8 / span 5;
+            }
+
+            .dashboard-section.full {
+                grid-column: 1 / -1;
+            }
+
+            .data-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 0.86rem;
+                overflow: hidden;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 0.7rem 0.6rem;
+                text-align: left;
+                border-bottom: 1px solid #eadfce;
+                vertical-align: top;
+            }
+
+            .data-table th {
+                color: var(--muted);
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+
+            .status-pill {
+                display: inline-block;
+                padding: 0.3rem 0.55rem;
+                border-radius: 999px;
+                background: #fff;
+                border: 1px solid var(--border);
+                font-size: 0.76rem;
+                font-weight: 600;
+            }
+
+            .dashboard-stat {
+                padding: 0.95rem 1rem;
+                border-radius: 14px;
+                background: linear-gradient(135deg, #fff8f2 0%, #fffaf5 100%);
+                border: 1px solid var(--border);
+            }
+
+            .dashboard-stat strong {
+                display: block;
+                font-family: "DM Serif Display", Georgia, serif;
+                font-size: 1.55rem;
+                line-height: 1;
+                color: var(--accent);
+            }
+
+            .dashboard-stat span {
+                display: block;
+                margin-top: 0.3rem;
+                font-size: 0.82rem;
+                color: var(--muted);
+            }
+
             .btn {
                 display: inline-block;
                 text-align: center;
@@ -206,59 +416,213 @@
                 filter: brightness(1.03);
             }
 
-            @media (max-width: 980px) {
-                .page {
+            .admin-intro {
+                display: grid;
+                gap: 0.45rem;
+            }
+
+            .admin-intro h3 {
+                margin-bottom: 0;
+            }
+
+            .status-overview {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.75rem;
+                margin-top: 0.25rem;
+            }
+
+            .status-card {
+                padding: 0.95rem 1rem;
+                border-radius: 14px;
+                border: 1px solid var(--border);
+                background: #fff;
+            }
+
+            .status-card span {
+                display: block;
+                color: var(--muted);
+                font-size: 0.8rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .status-card strong {
+                font-size: 1rem;
+                color: var(--text);
+            }
+
+            .admin-footer-actions {
+                display: flex;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+                margin-top: 1.25rem;
+            }
+
+            .report-nav-bottom {
+                margin-top: 1rem;
+                border-top: 1px solid rgba(232, 220, 203, 0.9);
+                border-bottom: 0;
+            }
+
+            /* Mobile-first: Small phones (320px - 480px) */
+            @media (max-width: 480px) {
+                body {
+                    padding: 0;
+                }
+
+                .dashboard-shell,
+                .report-nav-inner {
+                    padding-left: 0.9rem;
+                    padding-right: 0.9rem;
+                }
+
+                .report-nav-links {
+                    width: 100%;
+                }
+
+                .report-nav-links a {
+                    width: 100%;
+                }
+
+                .dashboard-stats {
                     grid-template-columns: 1fr;
                 }
 
-                .hero,
-                .panel {
-                    padding: 1.75rem 1.3rem;
+                .dashboard-section.routes,
+                .dashboard-section.fleet,
+                .dashboard-section.full {
+                    grid-column: 1 / -1;
                 }
 
-                .summary {
-                    grid-template-columns: 1fr;
+                .admin-footer-actions {
+                    flex-direction: column;
                 }
             }
+
+            /* Tablets and medium phones (481px - 768px) */
+            @media (max-width: 768px) {
+                body {
+                    padding: 0;
+                }
+
+                .dashboard-shell,
+                .report-nav-inner {
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                }
+
+                .report-nav-links a {
+                    flex: 1 1 140px;
+                }
+
+                .dashboard-stats {
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                }
+
+                .dashboard-section.routes,
+                .dashboard-section.fleet,
+                .dashboard-section.full {
+                    grid-column: 1 / -1;
+                }
+            }
+
+            /* Tablets and larger (769px - 980px) */
+            @media (max-width: 980px) {
+                .dashboard-shell,
+                .report-nav-inner {
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                }
+
+                .dashboard-stats {
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                }
+
+                .dashboard-section.routes,
+                .dashboard-section.fleet,
+                .dashboard-section.full {
+                    grid-column: 1 / -1;
+                }
+            }
+
+            /* Desktop and larger (981px+) - default */
         </style>
     </head>
     <body>
-        <main class="page">
-            <section class="hero">
-                <header class="brand">
-                    <div>
-                        <p class="kicker">Local Waste Authority</p>
-                        <h1>CivicWaste</h1>
-                    </div>
-                </header>
+        <main class="dashboard-shell">
+            <section class="dashboard-hero" id="overview">
+                <h2>Admin overview</h2>
+                <p>Use the report navigation below to jump between routes and fleet data loaded from the imported SQL database. The top summaries are spread across the screen for easier scanning.</p>
+            </section>
 
-                <div>
-                    <h2>Smarter collections. Cleaner streets.</h2>
-                    <p>Welcome back {{ request.user.username }}. Your dashboard is ready to support demand-based pickups and better route planning.</p>
-                    <div class="summary">
-                        <div class="item">
-                            <strong>Role</strong>
-                            <span>{{ group_name }}</span>
-                        </div>
-                        <div class="item">
-                            <strong>Status</strong>
-                            <span>Live monitoring active</span>
-                        </div>
+            <nav class="report-nav" aria-label="Admin reports navigation">
+                <div class="report-nav-inner">
+                    <div class="report-nav-title">
+                        <strong>Jump to reports</strong>
+                        <span>Navigate the dashboard sections and related pages</span>
                     </div>
+                    <div class="report-nav-links">
+                        <a href="#overview">Overview</a>
+                        <a href="{% url 'admin-routes' %}">Routes</a>
+                        <a href="{% url 'admin-reports' %}">Reports</a>
+                        <a href="{% url 'admin-fleet' %}">Fleet</a>
+                        <a href="{% url 'admin-zones' %}">Zones</a>
+                        <a href="{% url 'crew-route' %}">Crew route</a>
+                        <!-- logout removed from nav per request -->
+                    </div>
+                </div>
+            </nav>
+
+            <section class="dashboard-stats" aria-label="Summary metrics">
+                <div class="dashboard-stat">
+                    <strong>{{ sql_total_routes }}</strong>
+                    <span>Total routes</span>
+                </div>
+                <div class="dashboard-stat">
+                    <strong>{{ sql_total_reports }}</strong>
+                    <span>Total reports</span>
+                </div>
+                <div class="dashboard-stat">
+                    <strong>{{ sql_pending_reports }}</strong>
+                    <span>Pending reports</span>
+                </div>
+                <div class="dashboard-stat">
+                    <strong>{{ sql_active_vehicles }}</strong>
+                    <span>Active vehicles</span>
                 </div>
             </section>
 
-            <section class="panel">
-                <p class="kicker" style="color: #8b8f9e">Dashboard access</p>
-                <h3>{{ group_name }} dashboard</h3>
-                <p class="subtext">Use this area to manage your route, requests, and bin monitoring updates in real time.</p>
+            <section class="dashboard-grid">
+                <!-- Routes and fleet tables removed from main dashboard
+                     These items are available via the navigation only. -->
 
-                <span class="role-chip">Signed in as {{ request.user.username }}</span>
+                <section class="dashboard-section full">
+                    <div class="admin-intro">
+                        <p class="kicker" style="color: #8b8f9e">Dashboard access</p>
+                        <h3>{{ group_name }} dashboard</h3>
+                        <p class="subtext">Use this area to manage your route, requests, and bin monitoring updates in real time.</p>
+                    </div>
 
-                <div class="actions">
-                    <a class="btn btn-secondary" href="{% url 'role-dashboard' role_slug=role_slug %}">Refresh dashboard</a>
-                    <a class="btn btn-primary" href="{% url 'logout' %}">Log out</a>
-                </div>
+                    <div class="status-overview">
+                        <div class="status-card">
+                            <span>Current route</span>
+                            <strong>{{ sql_in_progress_routes }} active, {{ sql_scheduled_routes }} scheduled</strong>
+                        </div>
+                        <div class="status-card">
+                            <span>Report volume</span>
+                            <strong>{{ sql_total_reports }} total, {{ sql_pending_reports }} pending</strong>
+                        </div>
+                        <div class="status-card">
+                            <span>Fleet</span>
+                            <strong>{{ sql_active_vehicles }} active vehicles</strong>
+                        </div>
+                    </div>
+
+                    <div class="admin-footer-actions">
+                        <a class="btn btn-secondary" href="{% url 'role-dashboard' role_slug=role_slug %}">Refresh dashboard</a>
+                        <a class="btn btn-primary" href="{% url 'logout' %}">Log out</a>
+                    </div>
+                </section>
             </section>
         </main>
     </body>

@@ -3,14 +3,22 @@ from datetime import date, timedelta
 
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect, render
 
 from .forms import RoleBasedLoginForm
 from .models import Bin, RouteStop, WeeklyRoute
+from .sql_data import (
+	get_sql_admin_context,
+	get_sql_collection_context,
+	get_sql_resident_context,
+	get_sql_route_snapshot,
+)
 
 COLLECTION_THRESHOLD = 70
-DEPOT_LAT = 51.5074
-DEPOT_LON = -0.1278
+DEPOT_NAME = "Leeds Waste Depot"
+DEPOT_LAT = 53.7995
+DEPOT_LON = -1.5918
 
 ROLE_SLUGS = {
 	"Admin": "admin",
@@ -141,13 +149,32 @@ def login_view(request):
 
 	form = RoleBasedLoginForm(request=request, data=request.POST or None)
 	if request.method == "POST" and form.is_valid():
-		login(request, form.get_user())
+		user = form.get_user()
+		login(request, user)
+		# Explicitly rotate CSRF token after login to prevent reuse
+		rotate_token(request)
+		# Always redirect to role-based dashboard; ignore any ?next parameter
+		# Post-login flow is role-based, not generic
 		slug = role_slug_for_user(request.user)
 		if slug:
-			return redirect("role-dashboard", role_slug=slug)
+			response = redirect("role-dashboard", role_slug=slug)
+			# Add cache-control headers to prevent POST replay attacks and CSRF token stale issues
+			response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+			response['Pragma'] = 'no-cache'
+			response['Expires'] = '0'
+			return response
 		return redirect("logout")
 
-	return render(request, "bins/login.html", {"form": form})
+	# On GET or form error, ensure a fresh CSRF token is generated
+	if request.method == "POST":
+		rotate_token(request)
+	
+	response = render(request, "bins/login.html", {"form": form})
+	# Ensure login page isn't cached to prevent CSRF token staleness issues
+	response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+	response['Pragma'] = 'no-cache'
+	response['Expires'] = '0'
+	return response
 
 
 @login_required
@@ -182,15 +209,11 @@ def role_dashboard_view(request, role_slug):
 	}
 
 	if role_slug == "resident":
-		today = date.today()
-		context.update(
-			{
-				"resident_bin_fill_level": 62,
-				"resident_next_collection": _next_monday(today),
-				"resident_last_collection": _previous_monday(today),
-				"resident_collections_this_month": _mondays_elapsed_in_month(today),
-			}
-		)
+		context.update(get_sql_resident_context())
+	elif role_slug == "collection-crew":
+		context.update(get_sql_collection_context())
+	elif role_slug == "admin":
+		context.update(get_sql_admin_context())
 
 	return render(request, template, context)
 
@@ -199,6 +222,22 @@ def role_dashboard_view(request, role_slug):
 def crew_route_view(request):
 	if get_user_primary_role(request.user) not in ("Collection Crew", "Admin"):
 		return redirect("role-dashboard", role_slug=role_slug_for_user(request.user))
+
+	sql_snapshot = get_sql_route_snapshot()
+	if sql_snapshot:
+		return render(
+			request,
+			"bins/crew_route.html",
+			{
+				"route": sql_snapshot["route"],
+				"stops": sql_snapshot["stops"],
+				"route_map_stops": sql_snapshot["route_map_stops"],
+				"week_end": sql_snapshot["week_end"],
+				"depot_name": DEPOT_NAME,
+				"depot_lat": DEPOT_LAT,
+				"depot_lon": DEPOT_LON,
+			},
+		)
 
 	weekly_route = _get_or_create_weekly_route()
 	week_end = weekly_route.week_start + timedelta(days=6)
@@ -222,6 +261,7 @@ def crew_route_view(request):
 			"stops": stops,
 			"route_map_stops": route_map_stops,
 			"week_end": week_end,
+			"depot_name": DEPOT_NAME,
 			"depot_lat": DEPOT_LAT,
 			"depot_lon": DEPOT_LON,
 		},
@@ -232,3 +272,51 @@ def crew_route_view(request):
 def logout_view(request):
 	logout(request)
 	return redirect("login")
+
+
+@login_required
+def admin_routes_view(request):
+	if get_user_primary_role(request.user) != "Admin":
+		return redirect("role-dashboard", role_slug=role_slug_for_user(request.user))
+
+	context = get_sql_admin_context()
+	context.update({
+		"role_slug": role_slug_for_user(request.user),
+	})
+	return render(request, "bins/admin_routes.html", {"routes": context.get("sql_recent_routes", []), **context})
+
+
+@login_required
+def admin_fleet_view(request):
+	if get_user_primary_role(request.user) != "Admin":
+		return redirect("role-dashboard", role_slug=role_slug_for_user(request.user))
+
+	context = get_sql_admin_context()
+	context.update({
+		"role_slug": role_slug_for_user(request.user),
+	})
+	return render(request, "bins/admin_fleet.html", {"fleet": context.get("sql_fleet", []), **context})
+
+
+@login_required
+def admin_zones_view(request):
+	if get_user_primary_role(request.user) != "Admin":
+		return redirect("role-dashboard", role_slug=role_slug_for_user(request.user))
+
+	context = get_sql_admin_context()
+	context.update({
+		"role_slug": role_slug_for_user(request.user),
+	})
+	return render(request, "bins/admin_zones.html", {"zones": context.get("sql_zones", []), **context})
+
+
+@login_required
+def admin_reports_view(request):
+	if get_user_primary_role(request.user) != "Admin":
+		return redirect("role-dashboard", role_slug=role_slug_for_user(request.user))
+
+	context = get_sql_admin_context()
+	context.update({
+		"role_slug": role_slug_for_user(request.user),
+	})
+	return render(request, "bins/admin_reports.html", {"reports": context.get("sql_reports", []), **context})
